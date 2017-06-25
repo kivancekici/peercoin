@@ -28,22 +28,24 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const unsigned int MAX_BLOCK_SIZE = 1000000;
+// Kivanc block size to 10mb
+static const unsigned int MAX_BLOCK_SIZE = 10000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const int64 MIN_TX_FEE = CENT;
 static const int64 MIN_RELAY_TX_FEE = CENT;
-static const int64 MAX_MONEY = 2000000000 * COIN;
+// coin supply to 10 billion
+static const int64 MAX_MONEY = 10000000000 * COIN;
 static const int64 MAX_MINT_PROOF_OF_WORK = 9999 * COIN;
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 static const int COINBASE_MATURITY_PPC = 500;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
-static const int STAKE_TARGET_SPACING = 10 * 60; // 10-minute block spacing 
-static const int STAKE_MIN_AGE = 60 * 60 * 24 * 30; // minimum age for coin age
-static const int STAKE_MAX_AGE = 60 * 60 * 24 * 90; // stake age of full weight
+static const int STAKE_TARGET_SPACING = 2 * 60; // Kivanc 2-minute block spacing 
+static const int STAKE_MIN_AGE = 60 * 60 * 24 * 15; // Kivanc 15 days minimum age for coin age
+static const int STAKE_MAX_AGE = 60 * 60 * 24 * 45; // Kivanc 45 days stake age of full weight
 
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
@@ -51,8 +53,9 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlockOfficial("0x0000000032fe677166d54963b62a4677d8957e87c508eaa4fd7eb1c880cd27e3");
-static const uint256 hashGenesisBlockTestNet("0x00000001f757bb737f6596503e17cd17b0658ce630cc727c0cca81aec47c9f06");
+//Kivanc genesis block
+static const uint256 hashGenesisBlockOfficial("0x");
+static const uint256 hashGenesisBlockTestNet("0x");
 
 static const int64 nMaxClockDrift = 2 * 60 * 60;        // two hours
 
@@ -1800,7 +1803,8 @@ public:
     bool CheckSignature()
     {
         CKey key;
-        if (!key.SetPubKey(ParseHex("04a0a849dd49b113d3179a332dd77715c43be4d0076e2f19e66de23dd707e56630f792f298dfd209bf042bb3561f4af6983f3d81e439737ab0bf7f898fecd21aab")))
+		// Kivanc set a pubkey
+        if (!key.SetPubKey(ParseHex("12345649dd49b113d3179a332dd77715c43be4d0076e2f19e66de23dd707e56630f792f298dfd209bf042bb3561f4af6983f3d81e439737ab0bf7f898fecd21aab")))
             return error("CAlert::CheckSignature() : SetPubKey failed");
         if (!key.Verify(Hash(vchMsg.begin(), vchMsg.end()), vchSig))
             return error("CAlert::CheckSignature() : verify signature failed");
